@@ -6,11 +6,6 @@
     state: started
   become: yes
 
-- name: reload thelounge
-  systemd:
-    name: thelounge
-    state: reloaded
-
 - name: restart thelounge
   systemd:
     name: thelounge
