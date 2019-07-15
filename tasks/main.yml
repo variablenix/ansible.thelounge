@@ -1,0 +1,4 @@
+---
+- include: init.yml
+  tags: [pretask]
+  ignore_errors: no

@@ -1,0 +1,23 @@
+---
+- name: start thelounge
+  systemd:
+    name: thelounge
+    enabled: yes
+    state: started
+  become: yes
+
+- name: reload thelounge
+  systemd:
+    name: thelounge
+    state: reloaded
+
+- name: restart thelounge
+  systemd:
+    name: thelounge
+    enabled: yes
+    state: restarted
+  become: yes
+
+- name: reload systemd daemon
+  systemd:
+    daemon_reload: yes

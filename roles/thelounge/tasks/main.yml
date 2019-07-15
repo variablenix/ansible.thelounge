@@ -1,0 +1,56 @@
+---
+- name: Install node.js dependency
+  pacman:
+    name: nodejs
+    state: present
+
+- name: Install esprima node.js package globally
+  npm:
+    name: esprima
+    global: yes
+    state: present
+
+- name: Ensure thelounge is installed
+  aur: name=thelounge skip_installed=true
+  become: yes
+  become_user: aur_builder
+  ignore_errors: False
+
+- name: Ensure thelounge configuration directory is present
+  file:
+    path: '{{ thelounge_home }}'
+    owner: thelounge
+    group: thelounge
+    state: directory
+  become: yes
+
+- name: Ensure preview storage directory is present
+  file:
+    path: '{{ thelounge_home }}/storage'
+    owner: thelounge
+    group: thelounge
+    mode: '0770'
+    state: directory
+  become: yes
+  notify: restart thelounge
+
+- name: Install some lounge themes
+  shell: /usr/bin/thelounge install {{ item }}
+  with_items:
+    - thelounge_themes
+  when: thelounge_install_themes
+
+- name: Ensure thelounge is configured
+  template:
+    src: config.js.j2
+    dest: '{{ thelounge_home }}'
+    mode: '0600'
+    owner: thelounge
+    group: thelounge
+    validate: 'esvalidate %s'
+  become: yes
+  notify: restart thelounge
+
+# User configuration (private mode)
+- include: user.yml
+  when: thelounge_public != "true"

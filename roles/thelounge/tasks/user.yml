@@ -1,0 +1,28 @@
+---
+- name: Install jsonlint package to help validate user config (private mode)
+  aur: name=nodejs-jsonlint skip_installed=true
+  become: yes
+  become_user: aur_builder
+  ignore_errors: True
+
+- name: Ensure user configuration directory is present
+  file:
+    path: '{{ thelounge_home }}/users'
+    owner: thelounge
+    group: thelounge
+    state: directory
+  become: yes
+  notify: restart thelounge
+
+- name: Ensure user configuration files are present
+  template:
+    src: user.json.j2
+    dest: '{{ thelounge_home }}/users/{{ item.user }}.json'
+    owner: thelounge
+    group: thelounge
+    mode: '0660'
+    force: no # Do not overwrite existing users to not erase networks
+    validate: 'jsonlint -q %s'
+  with_items: '{{ thelounge_users }}'
+  become: yes
+  notify: restart thelounge

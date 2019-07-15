@@ -1,0 +1,15 @@
+---
+- name: The Lounge - Modern self-hosted web IRC client
+  hosts: lounge
+  remote_user: you
+  become: yes
+  gather_facts: yes
+  vars_files:
+    - vars/main.yml
+  pre_tasks:
+    - { include: tasks/main.yml }
+  roles:
+    - { role: thelounge, tags: [ 'lounge' ] }
+
+  handlers:
+    - include: handlers/main.yml
