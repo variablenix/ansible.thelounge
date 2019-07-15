@@ -1,6 +1,6 @@
 # Ansible: The Lounge for ArchLinux
 
-This Playbook installs and configures [TheLounge](https://thelounge.chat/) on an Arch Linux host. The [ansible-aur](https://github.com/kewlfft/ansible-aur) module is used to install [thelounge](https://aur.archlinux.org/packages/thelounge/) and any other AUR packages such as [nodejs-jsonlint](https://aur.archlinux.org/packages/nodejs-jsonlint/).
+This Playbook installs and configures [The Lounge](https://thelounge.chat/) on an Arch Linux host. The [ansible-aur](https://github.com/kewlfft/ansible-aur) module is used to install [thelounge](https://aur.archlinux.org/packages/thelounge/) and any other AUR packages such as [nodejs-jsonlint](https://aur.archlinux.org/packages/nodejs-jsonlint/).
 
 ### Usage
 First ensure there are no major issues reported before removing `--check` verification.
